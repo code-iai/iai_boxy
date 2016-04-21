@@ -1,1 +1,2 @@
 - git: {local-name: iai_boxy, uri: 'https://github.com/code-iai/iai_boxy.git', version: master}
+- git: {local-name: iai_robot_drivers, uri: 'https://github.com/code-iai/iai_robot_drivers.git', version: master}

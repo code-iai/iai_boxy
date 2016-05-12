@@ -42,7 +42,7 @@
   <buildtool_depend>catkin</buildtool_depend>
   <run_depend>omni_ethercat</run_depend>
   <run_depend>soft_runstop</run_depend>
-  <run_depend>turtlebot_teleop</run_depend>
+  <run_depend>iai_boxy_teleop</run_depend>
 
 
   <!-- The export tag contains other, unspecified, tags -->

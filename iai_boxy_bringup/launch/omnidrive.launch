@@ -7,9 +7,4 @@
       <param name="child_frame_id" value="/base_footprint" />
       <param name="tf_frequency" value="20"/>
     </node>
-
-    <!--node name="joy_torso_remote" pkg="joy_torso_remote" type="joy_torso_remote.py"/-->
-
-
 </launch>
-

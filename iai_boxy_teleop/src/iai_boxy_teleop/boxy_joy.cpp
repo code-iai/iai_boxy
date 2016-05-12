@@ -33,8 +33,6 @@
 #include <geometry_msgs/Twist.h>
 #include <sensor_msgs/Joy.h>
 #include "boost/thread/mutex.hpp"
-// #include "boost/thread/thread.hpp"
-// #include "ros/console.h"
 
 class BoxyTeleop
 {

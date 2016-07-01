@@ -30,7 +30,7 @@
  */
 
 #include <ros/ros.h>
-#include <geometry_msgs/Twist.h>
+#include <geometry_msgs/TwistStamped.h>
 #include <sensor_msgs/Joy.h>
 #include "boost/thread/mutex.hpp"
 
@@ -50,7 +50,7 @@ private:
   ros::Publisher vel_pub_;
   ros::Subscriber joy_sub_;
 
-  geometry_msgs::Twist last_published_;
+  geometry_msgs::TwistStamped last_published_;
   boost::mutex publish_mutex_;
   bool deadman_pressed_;
   ros::Timer timer_;
@@ -75,7 +75,7 @@ BoxyTeleop::BoxyTeleop():
   ph_.param("scale_angular", a_scale_, a_scale_);
   ph_.param("scale_linear", l_scale_, l_scale_);
 
-  vel_pub_ = nh_.advertise<geometry_msgs::Twist>("cmd_vel", 1);
+  vel_pub_ = nh_.advertise<geometry_msgs::TwistStamped>("cmd_vel", 1);
   joy_sub_ = nh_.subscribe<sensor_msgs::Joy>("joy", 10, &BoxyTeleop::joyCallback, this);
 
   timer_ = nh_.createTimer(ros::Duration(0.01), boost::bind(&BoxyTeleop::publish, this));
@@ -83,10 +83,11 @@ BoxyTeleop::BoxyTeleop():
 
 void BoxyTeleop::joyCallback(const sensor_msgs::Joy::ConstPtr& joy)
 { 
-  geometry_msgs::Twist vel;
-  vel.angular.z = a_scale_*joy->axes[angular_];
-  vel.linear.x = l_scale_*joy->axes[linear_x];
-  vel.linear.y = l_scale_*joy->axes[linear_y];
+  geometry_msgs::TwistStamped vel;
+  vel.header.frame_id = "/base_footprint";
+  vel.twist.angular.z = a_scale_*joy->axes[angular_];
+  vel.twist.linear.x = l_scale_*joy->axes[linear_x];
+  vel.twist.linear.y = l_scale_*joy->axes[linear_y];
   last_published_ = vel;
   deadman_pressed_ = joy->buttons[deadman_axis_] && (not joy->buttons[headctrl_axis_]);
 

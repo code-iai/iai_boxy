@@ -1,16 +1,15 @@
 <launch>
 
   <param name="/use_sim_time" value="false"/>
-  <include file="$(find boxy_bringup)/machines/boxy.machine" />
 
   <!-- Load the robot description -->
   <include file="$(find iai_boxy_description)/launch/upload_boxy.launch" />
 
   <!-- Do forward kinematics: /joint_states + robot model => /tf -->
-  <node
-    name="robot_state_publisher"
-    pkg="robot_state_publisher"
-    type="robot_state_publisher" />
+  <!-- <node
+	    name="robot_state_publisher" 
+      pkg="robot_state_publisher"	
+      type="robot_state_publisher" />  already in move_group_mine.launch -->
 
   <!-- TF2 BUFFER SERVER -->
   <node pkg="tf2_ros" type="buffer_server" name="buffer_server"/>
@@ -46,6 +45,12 @@
         'right_arm_4_joint': -1.16
         'right_arm_5_joint': -1.17
         'right_arm_6_joint': 0.1
+        'neck_shoulder_pan_joint': -1.346
+        'neck_shoulder_lift_joint': -1.116
+        'neck_elbow_joint': -2.121
+        'neck_wrist_1_joint': -2.486
+        'neck_wrist_2_joint': -1.541
+        'neck_wrist_3_joint': -3.093
       </rosparam>
       <param name="rate" value="200"/>
       <param name="use_gui" value="True"/>
@@ -53,4 +58,3 @@
 
 
 </launch>
-

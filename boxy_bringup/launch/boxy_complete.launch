@@ -164,7 +164,7 @@
   <!-- Temporary, should use MUX and ros-control instead -->
   <!--include file="$(find boxy_bringup)/launch/r_arm_pos.launch"/-->
   
-  <include file="$(find ur_modern_driver)/launch/ur3_boxy_bringup.launch"/>
+  <include file="$(find boxy_bringup)/launch/ur3_boxy_bringup.launch"/>
 
   <!-- nav_pcontroller -->
   <include file="$(find boxy_bringup)/launch/boxy_nav_pcontroller.launch"/>

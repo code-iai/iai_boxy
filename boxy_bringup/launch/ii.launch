@@ -1,0 +1,9 @@
+<launch>
+  <include file="$(find wsg_50_driver)/launch/wsg_50_tcp.launch">
+    <arg name="node_name" value="left_arm_gripper"/>
+    <arg name="ip" value="192.168.1.20"/>
+  </include>
+
+</launch>
+
+

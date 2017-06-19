@@ -1,0 +1,6 @@
+<launch>
+ <include file="$(find beasty_manager)/launch/beasty_manager_both.launch"/>
+ <include file="$(find realtime_bridge)/launch/realtime_bridge_both.launch"/>
+
+</launch>
+

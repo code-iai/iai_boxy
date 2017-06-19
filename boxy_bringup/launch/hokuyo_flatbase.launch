@@ -1,0 +1,21 @@
+
+<launch>
+  <node name="hokuyo" pkg="hokuyo_node" type="hokuyo_node" respawn="false" output="screen">
+  
+    <!-- Starts up faster, but timestamps will be inaccurate. --> 
+    <param name="calibrate_time" type="bool" value="true"/> 
+    
+    <!-- Set the port to connect to here -->
+    <param name="port" type="string" value="/dev/ttyACM0"/> 
+    <param name="frame_id" type="string" value="/front_laser"/> 
+  
+    <param name="intensity" type="bool" value="false"/>
+    <param name="min_ang" type="double" value="-2.2"/>
+    <param name="max_ang" type="double" value="2.3561"/>
+  </node>
+
+
+  <node name="tf_front_laser" pkg="tf" type="static_transform_publisher" args="0.0 -0.07 0.34 0.7854 0 3.14159 /base_link /front_laser 100"/>
+  
+  
+</launch>

@@ -1,0 +1,26 @@
+<launch>
+  <param name="/use_sim_time" value="false"/>
+
+  <!-- Load the robot description -->
+  <param name="robot_description"
+    textfile="$(find boxy_description)/robots/boxy_description.urdf" />
+
+  <!-- Start up beasty-action-bridges for both arms -->
+  <!-- SUPPOSES YOU STARTED THE RCU IN A SCHROOT -->
+  <include file="$(find dlr_action_bridge)/launch/dual_arm_dlr_sim.launch"/>
+
+  <!-- dummy head joint publishing -->
+  <node pkg="boxy_description" type="joint_publisher.py" name="dummy_head_pan_pub"
+      args="/joint_states head_pan_joint 0.0" output="screen"/>
+  <node pkg="boxy_description" type="joint_publisher.py" name="dummy_head_tilt_pub"
+      args="/joint_states head_tilt_joint 0.0" output="screen"/>
+ 
+  <!-- dummy torso joint publishing -->
+  <node pkg="boxy_description" type="joint_publisher.py" name="dummy_torso_joint_pub"
+      args="/joint_states triangle_base_joint 0.35" output="screen"/>
+
+  <!-- Start up state-publishing -->
+  <node pkg="robot_state_publisher" type="state_publisher"
+      name="robot_state_publisher"/>
+
+</launch>

@@ -1,0 +1,173 @@
+<launch>
+  <arg name="ros_control" default="false"/>
+
+  <param name="/use_sim_time" value="false"/>
+
+  <include file="$(find boxy_bringup)/machines/boxy.machine" />
+
+  <!-- Load the robot description -->
+  <include file="$(find iai_boxy_description)/launch/upload_boxy.launch" />
+
+  <!-- Do forward kinematics: /joint_states + robot model => /tf -->
+  <node
+    name="robot_state_publisher"
+    pkg="robot_state_publisher"
+    type="robot_state_publisher" />
+
+  <!-- TF2 BUFFER SERVER -->
+  <node pkg="tf2_ros" type="buffer_server" name="buffer_server"/>
+
+  <!-- Start the EtherCAT controllers for the omnidirectional base -->
+  <include file="$(find boxy_bringup)/launch/omnidrive.launch" />
+
+  <!-- Bring together the different joint state messages -->
+  <node pkg="joint_state_publisher" type="joint_state_publisher"
+        name="joint_state_publisher" output="screen">
+    <rosparam param="source_list">
+      - right_arm/joint_states
+      - left_arm/joint_states
+      - torso/joint_states
+      - head/joint_states
+      - left_arm_gripper/joint_states
+      - right_arm_gripper/joint_states
+      - neck/joint_states
+    </rosparam>
+    <rosparam param="zeros">
+      'left_arm_0_joint': 0.47553
+      'left_arm_1_joint': 2.09769
+      'left_arm_2_joint': 2.97525
+      'left_arm_3_joint': 1.5025
+      'left_arm_4_joint': -2.96865
+      'left_arm_5_joint': 0.394601
+      'left_arm_6_joint': 0.478342
+      'right_arm_0_joint': -0.53244
+      'right_arm_1_joint': -1.9504
+      'right_arm_2_joint': -0.00022
+      'right_arm_3_joint': 1.85505
+      'right_arm_4_joint': -0.7828
+      'right_arm_5_joint': -0.1524
+      'right_arm_6_joint': -1.8721
+    </rosparam>
+    <!-- Orig right joints
+
+      'right_arm_0_joint': -0.31
+      'right_arm_1_joint': -1.43
+      'right_arm_2_joint': 1.16
+      'right_arm_3_joint': 1.52
+      'right_arm_4_joint': -1.16
+      'right_arm_5_joint': -1.17
+      'right_arm_6_joint': 0.1
+    -->
+
+    <param name="rate" value="200"/>
+    <param name="use_gui" value="False"/>
+  </node>
+
+
+  <!-- Bring together the different joint state messages -->
+  <node pkg="joint_state_publisher" type="joint_state_publisher"
+        name="joint_state_publisher_ideal" output="screen">
+    <rosparam param="source_list">
+      - right_arm/joint_states_ideal
+      - left_arm/joint_states_ideal
+      - torso/joint_states
+      - head/joint_states
+      - left_arm_gripper/joint_states
+      - right_arm_gripper/joint_states
+      - neck/joint_states
+    </rosparam>
+    <rosparam param="zeros">
+      'left_arm_0_joint': 0.47553
+      'left_arm_1_joint': 2.09769
+      'left_arm_2_joint': 2.97525
+      'left_arm_3_joint': 1.5025
+      'left_arm_4_joint': -2.96865
+      'left_arm_5_joint': 0.394601
+      'left_arm_6_joint': 0.478342
+      'right_arm_0_joint': -0.31
+      'right_arm_1_joint': -1.43
+      'right_arm_2_joint': 1.16
+      'right_arm_3_joint': 1.52
+      'right_arm_4_joint': -1.16
+      'right_arm_5_joint': -1.17
+      'right_arm_6_joint': 0.1
+    </rosparam>
+    <param name="rate" value="200"/>
+    <param name="use_gui" value="False"/>
+    <remap from="/joint_states" to="/joint_states_ideal"/>
+  </node>
+
+
+  <!-- Activate the Powercube nodes PTU and tilting laser -->
+  <!--include file="$(find powercube_node)/ptu_leela.launch"/-->
+
+
+
+  <!-- Kinect2 -->
+  <!--include file="$(find boxy_bringup)/launch/kinect2_head.launch"/-->
+
+
+  <!-- Converts joystick commands to dx,dy,dtheta -->
+  <include file="$(find turtlebot_teleop)/launch/ps3_teleop.launch"/>
+
+  <!-- Reads /dev/joy and outputs the ros /joy topic -->
+  <include file="$(find boxy_bringup)/launch/ps3.launch"/>
+
+  <!--node name="fake_runstop" pkg="omni_ethercat" type="fake_runstop.sh"/-->
+
+  <!--Looks at the /joy to decide if the runstop is active or not-->
+  <node name="soft_runstop" pkg="soft_runstop" type="soft_runstop">
+    <param name="stop_button" type="int" value="0"/>
+    <param name="start_button" type="int" value="3"/>
+  </node>
+
+  <!--include file="$(find boxy_bringup)/launch/openni_shoulder_kinect.launch">
+    <arg name="publish_tf" value="false"/>
+  </include-->
+
+  <include file="$(find boxy_bringup)/launch/ft_sensor.launch"/>
+
+  <include file="$(find boxy_bringup)/launch/wsg50.launch">
+   <arg name="ros_control" value="$(arg ros_control)"/>
+  </include>
+
+  <!-- Start the SICK LMS-400 for perception -->
+  <!--include file="$(find sick_lms400)/launch/sick_lms400.launch"/-->
+
+  <!-- Load the map of the environment -->
+  <include file="$(find iai_maps)/launch/map.launch"/>
+
+  <!-- Start the Hokuyo laser scanners for navigation -->
+  <include file="$(find boxy_bringup)/launch/hokuyo_utm30_boxy.launch"/>
+
+  <!-- load AMCL -->
+  <include file="$(find boxy_bringup)/launch/amcl_omni.launch"/>
+
+   <!-- start the inverse kinematics controller for both arms -->
+  <include file="$(find boxy_bringup)/launch/arm_cart_ctrl.launch"/>
+
+   <!-- start the joint position controllers -->
+  <!--node name="r_arm_pos_controller" pkg="iai_control_utils" type="joint_p_ctrl.py" args="" output="screen">
+    <remap from="~pos_command_in" to="~command"/>
+    <remap from="~vel_command_out" to="/right_arm/command"/>
+    <remap from="~joint_states" to="/right_arm/joint_states"/>
+  </node-->
+
+  <!--node name="l_arm_pos_controller" pkg="iai_control_utils" type="joint_p_ctrl.py" args="" output="screen">
+    <remap from="~pos_command_in" to="~command"/>
+    <remap from="~vel_command_out" to="/left_arm/command"/>
+    <remap from="~joint_states" to="/left_arm/joint_states"/>
+  </node-->
+
+
+
+  <!-- Temporary, should use MUX and ros-control instead -->
+  <!--include file="$(find boxy_bringup)/launch/r_arm_pos.launch"/-->
+  
+  <include file="$(find ur_modern_driver)/launch/ur3_boxy_bringup.launch"/>
+
+  <!-- nav_pcontroller -->
+  <include file="$(find boxy_bringup)/launch/boxy_nav_pcontroller.launch"/>
+
+</launch>
+

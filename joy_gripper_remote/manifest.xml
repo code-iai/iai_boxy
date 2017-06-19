@@ -1,0 +1,14 @@
+<package>
+  <description brief="joystick remote control for Boxy's grippers">
+
+     Control Boxy's grippers a PS3 joystick
+
+  </description>
+  <author>Alexis Maldonado</author>
+  <author>Georg Bartels</author>
+  <license>GPLv3</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ai.uni-bremen.de</url>
+  <depend package="sensor_msgs"/>
+  <depend package="iai_wsg_50_msgs"/>
+</package>

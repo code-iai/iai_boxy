@@ -1,0 +1,4 @@
+<launch>
+<node name="transform_base_footprint" pkg="tf" type="static_transform_publisher"
+        args="0.36 0.25 0.16  0.0 0.0 0.0 /base_footprint /base_link 1000"/>
+</launch>

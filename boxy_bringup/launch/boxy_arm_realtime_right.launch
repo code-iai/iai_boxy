@@ -1,0 +1,12 @@
+<launch>
+
+  <!-- Start the RCU on the vxworks machine -->
+  <include file="$(find beasty_manager)/launch/beasty_manager.launch"/>
+
+
+  <!--FIXME: the RCU needs to be UP before starting the realtime bridge -->
+  <!-- Start the realtime bridge:  ROS <> RCU -->
+  <include file="$(find realtime_bridge)/realtime_bridge_right.launch"/>
+
+</launch>
+

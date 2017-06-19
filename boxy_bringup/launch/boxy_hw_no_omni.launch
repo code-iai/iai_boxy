@@ -1,0 +1,84 @@
+<launch>
+  <param name="/use_sim_time" value="false"/>
+  <include file="$(find boxy_bringup)/machines/boxy.machine" />
+
+  <!-- Converts joystick commands to dx,dy,dtheta -->
+  <include file="$(find turtlebot_teleop)/ps3_teleop.launch"/>
+
+  <!-- Reads /dev/joy and outputs the ros /joy topic -->
+  <include file="$(find boxy_bringup)/launch/ps3.launch"/>
+
+  <!--node name="fake_runstop" pkg="omni_ethercat" type="fake_runstop.sh"/-->
+
+  <!--Looks at the /joy to decide if the runstop is active or not-->
+  <node name="soft_runstop" pkg="soft_runstop" type="soft_runstop">
+    <param name="stop_button" type="int" value="0"/>
+    <param name="start_button" type="int" value="3"/>
+  </node>
+
+  <!-- Activate the Powercube nodes PTU and tilting laser -->
+  <include file="$(find powercube_node)/ptu_leela.launch"/>
+
+  <!-- Translate /joy to commands to the PTU -->
+  <node name="joy_head_remote" pkg="joy_head_remote" type="joy_head_remote.py"/>
+
+  <!-- Load the robot description -->
+  <include file="$(find iai_boxy_description)/launch/upload_boxy.launch"/>
+
+
+
+  <!-- Do forward kinematics: /joint_states + robot model => /tf -->
+  <node
+    name="robot_state_publisher"
+    pkg="robot_state_publisher"
+    type="robot_state_publisher" />
+
+  <!-- For the Asus Xtion sensor -->
+  <!--include file="$(find boxy_bringup)/launch/openni2_head_xtion.launch"/-->
+
+
+  <!-- Place the Asus Xtion sensor on the PTU -->
+  <node name="kinect_on_plate" pkg="tf" type="static_transform_publisher"
+        args="-0.00202141721847676 0.0623384270076706 0.168168239942694 -0.0037174 -0.0207004 0.0140191 0.999681 /pw070_frame_out /head_xtion_link 1000"/>
+
+  <!-- Place the Nikon Camera on the PTU -->
+  <!-- node name="nikon_on_plate" pkg="tf" type="static_transform_publisher"
+        args="-0.0167489 0.00688984 0.0694291 -0.493007 0.50037 -0.509238 0.497235 /pw070_frame_out /nikon_camera_link 1000"/-->
+
+  <!--node name="nikon_on_plate" pkg="tf" type="static_transform_publisher"
+        args="-0.0112083 -0.0128239 0.0592834 -0.496056 0.497676 -0.506036 0.500174 /pw070_frame_out /nikon_camera_link 1000"/-->
+
+  <node name="nikon_on_plate" pkg="tf" type="static_transform_publisher"
+        args="-0.0133769 -0.0174477 0.0585501 -0.498536 0.492317 -0.502267 0.506769 /pw070_frame_out /nikon_camera_link 1000"/>
+
+
+  <!--node name="kinect_calib" pkg="tf" type="static_transform_publisher"
+        args="0.0358713 0.00698999 0.0133545 -0.485414 0.480266 -0.511457 0.52166   /pw070_frame_out /calib_cam 1000"/-->
+
+
+  <!-- Place the Shoulder Kinect -->
+  <node name="place_shoulder_kinect" pkg="tf" type="static_transform_publisher"
+        args="-0.135394 -0.00764754 1.54755 0.0177781 0.202257 -0.0472198 0.978032 /base_link /shoulder_kinect_link 1000"/>
+
+
+  <!-- Put base_footprint at the center of the robot with z=floor -->
+  <node name="transform_base_footprint" pkg="tf" type="static_transform_publisher"
+        args="0.36 0.25 0.16  0.0 0.0 0.0 /base_footprint /base_link 1000"/>
+
+
+  <!-- Start the Hokuyo laser scanners for navigation -->
+  <!--include file="$(find boxy_bringup)/launch/hokuyo_flatbase.launch"/-->
+
+  <!-- Start the SICK LMS-400 for perception -->
+  <!--include file="$(find sick_lms400)/launch/sick_lms400.launch"/-->
+
+  <!-- Publish frame for the WSG050 fingers x aligned on finger movement -->
+  <node name="left_arm_gripper" pkg="tf" type="static_transform_publisher"
+        args="0 0 0.188 .7853975 0 0 /left_arm_flange_link /left_gripper 100"/>
+
+  <!--include file="$(find boxy_bringup)/launch/openni2_head_xtion.launch"/-->
+  <include file="$(find beasty_manager)/launch/beasty_manager.launch"/>
+  <!--include file="$(find realtime_bridge)/launch/realtime_bridge_right_raw_cancel_integrator.launch"/-->
+
+
+</launch>

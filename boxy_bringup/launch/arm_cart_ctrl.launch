@@ -1,0 +1,24 @@
+<launch>
+
+   <node name="r_arm_cart_controller" pkg="iai_boxy_cart" type="arm_ik_controller.py" output="screen">
+     <param name="name_frame_in" type="string" value="triangle_base_link"/>
+     <param name="name_frame_out" type="string" value="right_gripper_tool_frame"/>
+     <param name="watchdog_timeout" type="double" value="0.5"/>
+     <param name="max_joint_vel" type="double" value="0.3"/>
+     <remap from="/r_arm_cart_controller/out_command" to="/r_arm_vel/command"/>
+     <remap from="r_arm_cart_controller/joint_states" to="/right_arm/joint_states"/>
+   </node>
+
+   <node name="l_arm_cart_controller" pkg="iai_boxy_cart" type="arm_ik_controller.py" output="screen">
+     <param name="name_frame_in" type="string" value="triangle_base_link"/>
+     <param name="name_frame_out" type="string" value="left_gripper_tool_frame"/>
+     <param name="watchdog_timeout" type="double" value="0.5"/>
+     <param name="max_joint_vel" type="double" value="0.3"/>
+     <!--remap from="l_arm_cart_controller/out_command" to="l_arm_vel/command"/-->
+     <remap from="l_arm_cart_controller/out_command" to="left_arm/command"/>
+     <remap from="l_arm_cart_controller/joint_states" to="/left_arm/joint_states"/>
+   </node>
+
+
+</launch>
+

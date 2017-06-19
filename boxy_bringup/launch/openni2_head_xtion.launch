@@ -1,0 +1,32 @@
+<launch>
+
+  <!-- upload machine descriptions to parameter server -->
+  <include file="$(find boxy_bringup)/machines/boxy.machine" />
+
+  <!-- Increase the resolution to 1280x1024 on the color image -->
+  <param name="head_xtion/driver/color_mode" value="1" />
+
+  <!-- reduce the framerate of the xtion to 10Hz on depth, and 2.5Hz on depth+color (registered PCDs) -->
+  <param name="head_xtion/driver/data_skip" value="2" /> 
+
+  <!-- Fix the depth calibration approximately --> 
+  <param name="head_xtion/driver/z_scaling" value="1.03" />
+
+  <!-- small fix to get the color to match better -->
+  <param name="head_xtion/driver/depth_ir_offset_x" value="-1.0"/>
+  <param name="head_xtion/driver/depth_ir_offset_y" value="-3.8"/>
+
+  <!-- start xtion on amy as it is plugged in that computer -->
+  <include file="$(find openni2_launch)/launch/openni2.launch" >
+    <arg name="camera" value="head_xtion" />
+    <arg name="machine" value="amy" />
+    <!-- if depth_registration is false, the sw-registraction is activated, which uses the calibrated url below -->
+    <arg name="depth_registration" value="true" /> 
+    <!-- The following are the result of running the camera_calibrator on each camera -->
+    <arg name="rgb_camera_info_url"
+        value="package://boxy_bringup/config/rgb_PS1080_PrimeSense.yaml" />
+    <arg name="depth_camera_info_url"
+        value="package://boxy_bringup/config/depth_PS1080_PrimeSense.yaml"/>
+  </include>
+
+</launch>

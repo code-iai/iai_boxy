@@ -1,0 +1,9 @@
+<launch>
+
+  <!-- Start the RCU and the action server -->
+  <include file="$(find iai_boxy_arms)/launch/iai_boxy_left_arm.launch"/>
+
+  <!-- after this you probably want to run: rosrun dlr_beastypy_examples rcu_test_right_arm.py -->
+
+</launch>
+

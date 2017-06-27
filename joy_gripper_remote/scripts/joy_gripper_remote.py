@@ -25,8 +25,8 @@ from sensor_msgs.msg import Joy
 class JoyGripperRemote( object ):
     '''    '''
     def __init__(self):
-        self.left_cmd = rospy.Publisher('~left_command', PositionCmd, tcp_nodelay=True)
-        self.right_cmd = rospy.Publisher('~right_command', PositionCmd, tcp_nodelay=True)
+        self.left_cmd = rospy.Publisher('~left_command', PositionCmd, queue_size=5, tcp_nodelay=True)
+        self.right_cmd = rospy.Publisher('~right_command', PositionCmd, queue_size=5, tcp_nodelay=True)
         self.joy_listener = rospy.Subscriber('~joy', Joy, self.joy_callback, tcp_nodelay=True)
         self.open_pos = rospy.get_param('~open_pos', 110.0)
         self.close_pos = rospy.get_param('~close_pos', 5.0)

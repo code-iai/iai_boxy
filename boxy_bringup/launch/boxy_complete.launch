@@ -143,8 +143,9 @@
   <!-- load AMCL -->
   <include file="$(find boxy_bringup)/launch/amcl_omni.launch"/>
 
-   <!-- start the inverse kinematics controller for both arms -->
-  <include file="$(find boxy_bringup)/launch/arm_cart_ctrl.launch"/>
+  <!--Replaced by giskard -->
+  <!-- start the inverse kinematics controller for both arms -->
+  <!--include file="$(find boxy_bringup)/launch/arm_cart_ctrl.launch"/-->
 
    <!-- start the joint position controllers -->
   <!--node name="r_arm_pos_controller" pkg="iai_control_utils" type="joint_p_ctrl.py" args="" output="screen">
@@ -160,14 +161,15 @@
   </node-->
 
 
-
-  <!-- Temporary, should use MUX and ros-control instead -->
-  <!--include file="$(find boxy_bringup)/launch/r_arm_pos.launch"/-->
-  
+  <!--Communication to the UR3 at the neck-->
   <include file="$(find boxy_bringup)/launch/ur3_boxy_bringup.launch"/>
 
   <!-- nav_pcontroller -->
   <include file="$(find boxy_bringup)/launch/boxy_nav_pcontroller.launch"/>
 
+  <!-- joystick controller for arm stiffness-->
+  <include file="$(find boxy_zero_gravity)/launch/boxy_zero_gravity.launch"/>
+
 </launch>
+
 

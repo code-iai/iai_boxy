@@ -28,6 +28,7 @@
     <include file="$(find wsg_50_driver)/launch/wsg_50_tcp.launch">
       <arg name="node_name" value="right_arm_gripper"/>
       <arg name="ip" value="192.168.102.63"/>
+      <arg name="gripper_name" value="right"/>
     </include>
 
     <include file="$(find wsg_50_driver)/launch/wsg_50_tcp.launch">
@@ -35,6 +36,7 @@
       <arg name="ip" value="192.168.102.64"/>
       <!--arg name="l_finger_joint_name" value="left_gripper_base_gripper_left_joint"/>
       <arg name="r_finger_joint_name" value="left_gripper_base_gripper_right_joint"/-->
+      <arg name="gripper_name" value="left"/>
     </include>
 
   </group>

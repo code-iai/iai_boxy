@@ -1,7 +1,7 @@
 <launch>
 
   <!--- Teleop Joystick -->
-  <node pkg="turtlebot_teleop" type="turtlebot_teleop_joy" name="turtlebot_teleop_joystick">
+  <node pkg="turtlebot_teleop" type="turtlebot_teleop_joy" name="turtlebot_teleop_joystick" respawn="true">
     <param name="scale_angular" value="0.6"/>
     <param name="scale_linear" value="0.5"/>
     <param name="axis_deadman" value="10"/>

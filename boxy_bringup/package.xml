@@ -59,7 +59,7 @@
   <run_depend>map-server</run_depend>
   <run_depend>urg-node</run_depend>
   <run_depend>amcl</run_depend>
-  <run_depend>nav-pcontroller</run_depend>
+  <run_depend>nav_pcontroller</run_depend>
   <!--run_depend>realtime_urdf_filter</run_depend-->
 
   <!-- The export tag contains other, unspecified, tags -->

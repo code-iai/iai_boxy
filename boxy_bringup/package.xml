@@ -57,7 +57,7 @@
   <run_depend>joint-state-publisher</run_depend>
   <run_depend>diagnostic-aggregator</run_depend>
   <run_depend>map-server</run_depend>
-  <run_depend>urg-node</run_depend>
+  <run_depend>urg_node</run_depend>
   <run_depend>amcl</run_depend>
   <run_depend>nav_pcontroller</run_depend>
   <!--run_depend>realtime_urdf_filter</run_depend-->

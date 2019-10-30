@@ -51,7 +51,7 @@
   <run_depend>omni_ethercat</run_depend>
   <run_depend>soft_runstop</run_depend>
   <run_depend>iai_control_utils</run_depend>
-  <run_depend>boxy_description</run_depend>
+  <run_depend>iai_boxy_description</run_depend>
   <run_depend>urg_node</run_depend>
   <run_depend>joy_torso_remote</run_depend>
   <run_depend>joint_state_publisher</run_depend>

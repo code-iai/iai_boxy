@@ -27,4 +27,8 @@
     local-name: reflexxes_type2
     uri: https://github.com/code-iai/reflexxes_type2.git
     version: master
+- git:
+    local-name: nav_pcontroller
+    uri: https://github.com/code-iai/nav_pcontroller
+    version: master
 

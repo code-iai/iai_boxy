@@ -31,6 +31,7 @@
       - left_arm_gripper/joint_states
       - right_arm_gripper/joint_states
       - neck/joint_states
+      - omnidrive/joint_states 
     </rosparam>
     <rosparam param="zeros">
       'left_arm_0_joint': 0.47553

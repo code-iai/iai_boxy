@@ -18,7 +18,7 @@
   <node pkg="tf2_ros" type="buffer_server" name="buffer_server"/>
 
   <!-- Start the EtherCAT controllers for the omnidirectional base -->
-  <include file="$(find boxy_bringup)/launch/omnidrive.launch" />
+  <include file="$(find omni_ethercat)/launch/boxy.launch" />
 
   <!-- Bring together the different joint state messages -->
   <node pkg="joint_state_publisher" type="joint_state_publisher"
@@ -168,7 +168,7 @@
   <include file="$(find boxy_bringup)/launch/boxy_nav_pcontroller.launch"/>
 
   <!-- joystick controller for arm stiffness-->
-  <include file="$(find boxy_zero_gravity)/launch/boxy_zero_gravity.launch"/>
+  <!--include file="$(find boxy_zero_gravity)/launch/boxy_zero_gravity.launch"/-->
 
 </launch>
 

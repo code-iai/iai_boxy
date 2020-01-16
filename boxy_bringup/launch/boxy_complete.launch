@@ -31,7 +31,7 @@
       - left_arm_gripper/joint_states
       - right_arm_gripper/joint_states
       - neck/joint_states
-      - omnidrive/joint_states
+      - omnidrive/joint_states 
     </rosparam>
     <rosparam param="zeros">
       'left_arm_0_joint': 0.47553
@@ -163,7 +163,9 @@
 
 
   <!--Communication to the UR3 at the neck-->
-  <include file="$(find boxy_bringup)/launch/ur3.launch"/>
+  <include file="$(find boxy_bringup)/launch/ur3.launch">
+    <arg name="standalone" value="false" />
+  </include>
 
   <!-- nav_pcontroller -->
   <include file="$(find boxy_bringup)/launch/boxy_nav_pcontroller.launch"/>

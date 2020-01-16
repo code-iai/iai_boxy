@@ -35,7 +35,7 @@
 
     <node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher" output="screen">
       <rosparam param="source_list">
-        - arm/joint_states
+        - neck/joint_states
       </rosparam>
 
       <param name="rate" value="120"/>
@@ -46,7 +46,7 @@
 
   <!-- driver -->
   <node name="ur_hardware_interface" pkg="ur_robot_driver" type="ur_robot_driver_node" output="screen" launch-prefix="$(arg launch_prefix)" required="true">
-    <remap from="joint_states" to="arm/joint_states"/>
+    <remap from="joint_states" to="neck/joint_states"/>
     <param name="robot_ip" type="str" value="$(arg robot_ip)"/>
     <rosparam command="load" file="$(arg kinematics_config)" />
     <param name="script_file" value="$(arg urscript_file)"/>

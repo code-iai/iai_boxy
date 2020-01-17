@@ -4,7 +4,7 @@
   
   <!-- robot_ip: IP-address of the robot's socket-messaging server -->
   <arg name="robot_ip" default="192.168.102.62"/>
-  <arg name="kinematics_config" default="$(find boxy_bringup)/config/ur3_calibration.yaml"/>
+  <arg name="kinematics_config" default="$(find iai_ur_description)/config/ur3_calibration.yaml"/>
 
 
   <arg name="debug" default="false" doc="Debug flag that will get passed on to ur_control.launch"/>

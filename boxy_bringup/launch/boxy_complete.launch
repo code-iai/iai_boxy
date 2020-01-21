@@ -163,7 +163,10 @@
 
 
   <!--Communication to the UR3 at the neck-->
-  <include file="$(find boxy_bringup)/launch/ur3_boxy_bringup.launch"/>
+  <include file="$(find boxy_bringup)/launch/ur3.launch">
+    <arg name="standalone" value="false" />
+    <arg name="controller_config_file" value="$(find boxy_bringup)/config/ur3_controllers.yaml" />
+  </include>
 
   <!-- nav_pcontroller -->
   <include file="$(find boxy_bringup)/launch/boxy_nav_pcontroller.launch"/>

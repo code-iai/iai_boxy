@@ -1,0 +1,51 @@
+<launch>
+  <arg name="standalone" default="true"/>
+
+  <group if="$(eval arg('standalone') == true)">
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher">
+      <param name="use_tf_static" value="false"/>
+    </node>
+
+    <node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher" output="screen">
+      <rosparam param="source_list">
+        - base/joint_states
+      </rosparam>
+      <rosparam param="zeros">
+        'odom_x_joint': 0.0
+        'odom_y_joint': 0.0
+        'odom_z_joint': 0.0
+      </rosparam>
+
+      <param name="rate" value="120"/>
+      <param name="use_gui" value="False"/>
+
+    </node>
+
+    <include file="$(find iai_boxy_base)/launch/upload.launch"/>
+
+  </group>
+
+  <!-- Map and static /map frame -->
+  <include file="$(find iai_maps)/launch/map.launch"/>
+  <!-- Localization -->
+  <include file="$(find iai_boxy_bringup)/launch/base/amcl_omni.launch"/>
+  <!-- Move base interface -->
+  <include file="$(find omni_ethercat)/launch/boxy.launch"/>
+  <!-- Start LIDARs front and back -->
+  <include file="$(find iai_boxy_bringup)/launch/base/hokuyo_utm30_boxy.launch"/>
+  <!-- General teleoperation interface -->
+  <include file="$(find turtlebot_teleop)/launch/ps3_teleop.launch"/>
+  <!-- PS3 controller specific config -->
+  <include file="$(find iai_boxy_bringup)/launch/base/ps3.launch"/>
+  <!-- Navigation controller -->
+  <include file="$(find iai_boxy_bringup)/launch/base/nav_pcontroller.launch"/>
+  <!-- Bridge soft run stop -->
+  <node name="soft_runstop" pkg="soft_runstop" type="soft_runstop">
+    <param name="stop_button" type="int" value="0"/>
+    <param name="start_button" type="int" value="3"/>
+  </node>
+  <!-- Action server wrapping base cmd_vel into follow_joint_trajectory -->
+  <include file="$(find iai_boxy_bringup)/launch/base/omni_pose_follower.launch"/>
+
+</launch>
+

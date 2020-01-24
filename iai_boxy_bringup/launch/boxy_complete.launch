@@ -1,0 +1,79 @@
+<launch>
+  <arg name="ros_control" default="true"/>
+
+  <param name="/use_sim_time" value="false"/>
+
+  <include file="$(find iai_boxy_bringup)/machines/boxy.machine" />
+
+  <!-- Load the robot description -->
+  <include file="$(find iai_boxy_description)/launch/upload_boxy.launch" />
+
+  <!-- Do forward kinematics: /joint_states + robot model => /tf -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+
+  <!-- TF2 BUFFER SERVER -->
+  <node pkg="tf2_ros" type="buffer_server" name="buffer_server"/>
+
+ <!-- Bring together the different joint state messages -->
+  <node pkg="joint_state_publisher" type="joint_state_publisher"
+        name="joint_state_publisher" output="screen">
+    <rosparam param="source_list">
+      - right_arm/joint_states
+      - left_arm/joint_states
+      - torso/joint_states
+      - left_arm_gripper/joint_states
+      - right_arm_gripper/joint_states
+      - neck/joint_states
+      - omnidrive/joint_states 
+    </rosparam>
+    <rosparam param="zeros">
+      'left_arm_0_joint': 0.47553
+      'left_arm_1_joint': 2.09769
+      'left_arm_2_joint': 2.97525
+      'left_arm_3_joint': 1.5025
+      'left_arm_4_joint': -2.96865
+      'left_arm_5_joint': 0.394601
+      'left_arm_6_joint': 0.478342
+      'right_arm_0_joint': -0.53244
+      'right_arm_1_joint': -1.9504
+      'right_arm_2_joint': -0.00022
+      'right_arm_3_joint': 1.85505
+      'right_arm_4_joint': -0.7828
+      'right_arm_5_joint': -0.1524
+      'right_arm_6_joint': -1.8721
+    </rosparam>
+    <param name="rate" value="200"/>
+    <param name="use_gui" value="False"/>
+  </node>
+
+  <include file="$(find iai_boxy_bringup)/launch/base.launch" >
+    <arg name="standalone" value="false" />
+  </include>
+
+  <include file="$(find iai_boxy_bringup)/launch/ft_sensor.launch"/>
+
+  <include file="$(find iai_boxy_bringup)/launch/wsg50.launch">
+   <arg name="ros_control" value="$(arg ros_control)"/>
+  </include>
+
+  <!--Communication to the UR3 at the neck-->
+  <include file="$(find iai_boxy_bringup)/launch/ur3.launch">
+    <arg name="standalone" value="false" />
+    <arg name="controller_config_file" 
+         value="$(find iai_boxy_bringup)/config/ur3_controllers.yaml" />
+  </include>
+
+  <!-- joystick controller for arm stiffness-->
+  <!--include file="$(find boxy_zero_gravity)/launch/boxy_zero_gravity.launch"/-->
+
+  <!-- Kinect2 -->
+  <!--include file="$(find iai_boxy_bringup)/launch/kinect2_head.launch"/-->
+
+  <!--include file="$(find iai_boxy_bringup)/launch/openni_shoulder_kinect.launch">
+    <arg name="publish_tf" value="false"/>
+  </include-->
+
+
+</launch>
+
+

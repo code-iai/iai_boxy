@@ -1,0 +1,10 @@
+<launch>
+  <include file="$(find iai_boxy_bringup)/machines/boxy.machine" />
+
+  <include file="$(find kinect2_bridge)/launch/kinect2_bridge.launch"> 
+    <arg name="base_name" value="kinect2_head"/>
+    <arg name="base_name_tf" value="head_mount_kinect2"/>
+    <arg name="machine" value="amy"/>
+    <!--arg name="fps_limit" value="5"/-->
+  </include>
+</launch>

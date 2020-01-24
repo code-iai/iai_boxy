@@ -1,0 +1,9 @@
+<launch>
+
+  <include file="$(find iai_boxy_bringup)/launch/boxy_complete.launch" />
+
+  <node pkg="iai_giskard_translator" type="traj_server.py" name="left_arm_follow_joint_trajectory" output="screen">
+    <!--remap from="~boxy_arm_traj_action" to="boxy_left_arm/follow_joint_trajectory"/-->
+  </node>
+
+</launch>

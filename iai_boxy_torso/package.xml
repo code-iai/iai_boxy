@@ -13,4 +13,4 @@
 
   <depend>control_msgs</depend>
   <depend>omni_ethercat</depend>
-</package
+</package>

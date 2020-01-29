@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>iai_boxy_torso</name>
+  <version>0.0.0</version>
+  <description>Boxy torso scripts</description>
+  <author>Arthur Niedzwiecki</author>
+  <maintainer email="aniedz@cs.uni-bremen.de">Arthur Niedzwiecki</maintainer>
+  <license>BSD</license>
+
+  <url type="repository">http://github.com/code-iai/iai_boxy</url>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <depend>control_msgs</depend>
+  <depend>omni_ethercat</depend>
+</package

@@ -37,7 +37,10 @@
 
   <!-- LASER SCANNERS AND NAVIGATION -->
   <!-- Start LIDARs front and back -->
-  <include file="$(find iai_boxy_bringup)/launch/base/hokuyo_utm30_boxy.launch"/>
+  <!-- TODO:'fix front laser' -->
+  <include file="$(find iai_boxy_bringup)/launch/base/hokuyo_utm30_boxy.launch">
+    <arg name="with_front" value="false"/>
+  </include>
   <!-- Localization -->
   <include file="$(find iai_boxy_bringup)/launch/base/amcl_omni.launch"/>
   <!-- Navigation controller -->

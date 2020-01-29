@@ -1,7 +1,12 @@
 <launch>
   <arg name="ros_control" default="true"/>
-
   <param name="/use_sim_time" value="false"/>
+
+  <arg name="with_base" default="true"/>
+  <arg name="with_neck" default="false"/>
+  <arg name="with_gripper" default="false"/>
+  <arg name="with_kinect" default="false"/>
+
 
   <include file="$(find iai_boxy_bringup)/machines/boxy.machine" />
 
@@ -46,32 +51,39 @@
     <param name="use_gui" value="False"/>
   </node>
 
-  <include file="$(find iai_boxy_bringup)/launch/base.launch" >
-    <arg name="standalone" value="false" />
-  </include>
+  <!-- Base and navigation -->
+  <group if="$(eval arg('with_base') == true)">
+    <include file="$(find iai_boxy_bringup)/launch/base.launch" >
+      <arg name="standalone" value="false" />
+    </include>
+  </group>
 
-  <include file="$(find iai_boxy_bringup)/launch/ft_sensor.launch"/>
+  <!-- Gripper and ft_sensor -->
+  <group if="$(eval arg('with_gripper') == true)">
+    <include file="$(find iai_boxy_bringup)/launch/ft_sensor.launch"/>
+    <include file="$(find iai_boxy_bringup)/launch/wsg50.launch">
+     <arg name="ros_control" value="$(arg ros_control)"/>
+    </include>
+  </group>
 
-  <include file="$(find iai_boxy_bringup)/launch/wsg50.launch">
-   <arg name="ros_control" value="$(arg ros_control)"/>
-  </include>
-
-  <!--Communication to the UR3 at the neck-->
-  <include file="$(find iai_boxy_bringup)/launch/ur3.launch">
-    <arg name="standalone" value="false" />
-    <arg name="controller_config_file" 
-         value="$(find iai_boxy_bringup)/config/ur3_controllers.yaml" />
-  </include>
-
-  <!-- joystick controller for arm stiffness-->
-  <!--include file="$(find boxy_zero_gravity)/launch/boxy_zero_gravity.launch"/-->
+  <!-- UR3 neck -->
+  <group if="$(eval arg('with_neck') == true)">
+    <include file="$(find iai_boxy_bringup)/launch/ur3.launch">
+      <arg name="standalone" value="false" />
+      <arg name="controller_config_file"
+           value="$(find iai_boxy_bringup)/config/ur3_controllers.yaml" />
+    </include>
+  </group>
 
   <!-- Kinect2 -->
-  <!--include file="$(find iai_boxy_bringup)/launch/kinect2_head.launch"/-->
+  <group if="$(eval arg('with_kinect') == true)">
+    <!--include file="$(find iai_boxy_bringup)/launch/kinect2_head.launch"/-->
 
-  <!--include file="$(find iai_boxy_bringup)/launch/openni_shoulder_kinect.launch">
-    <arg name="publish_tf" value="false"/>
-  </include-->
+    <!--include file="$(find iai_boxy_bringup)/launch/openni_shoulder_kinect.launch">
+      <arg name="publish_tf" value="false"/>
+    </include-->
+  </group>
+
 
 
 </launch>

@@ -50,6 +50,7 @@
   <run_depend>ur_robot_driver</run_depend>
   <run_depend>ur_description</run_depend>
   <run_depend>iai_ur_description</run_depend>
+  <run_depend>nav_pcontroller</run_depend>
 
 
   <!-- The export tag contains other, unspecified, tags -->

@@ -1,8 +1,8 @@
 
 <launch>
   <!-- The following parameters are tuned for both lasers (one UTM30LXEW, and one UST10LX) working reliably at 20Hz. Their nominal freq is 40Hz, but the older UTM30 seems to struggle like that, specially if we ask for intensity values. So for the sake of reliability, we set skip=1 to reduce freq to 20Hz. We could also change min_ang and max_ang, but I prefer to have the 270deg to cover all around Boxy -->
-  <arg name="with_front" value="true" />
-  <arg name="with_back" value="true" />
+  <arg name="with_front" default="true" />
+  <arg name="with_back" default="true" />
 
   <group if="$(eval arg('with_front') == true)">
     <node name="hokuyo_utm30_front" pkg="urg_node" type="urg_node" respawn="false" output="screen">

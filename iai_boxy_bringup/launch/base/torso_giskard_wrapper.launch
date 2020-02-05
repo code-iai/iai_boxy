@@ -1,0 +1,6 @@
+<launch>
+  <node pkg="iai_boxy_bringup" type="torso_server.py" name="torso_giskard_wrapper" output="screen">
+  </node>
+
+</launch>
+

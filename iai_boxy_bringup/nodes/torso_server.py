@@ -109,7 +109,7 @@ class TorsoServer(object):
 
 
 if __name__ == '__main__':
-    rospy.init_node(rospy.get_name())
+    rospy.init_node('iai_giskard_torso_translator')
     server = TorsoServer(rospy.get_name())
     rospy.loginfo('About to spin')
     rospy.spin()

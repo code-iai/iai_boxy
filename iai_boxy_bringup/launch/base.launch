@@ -30,7 +30,7 @@
   <!-- Move base interface -->
   <include file="$(find omni_ethercat)/launch/boxy.launch"/>
   <!-- Move torso interface -->
-  <include file="$(find iai_boxy_torso)/launch/torso_giskard_wrapper.launch" >
+  <include file="$(find iai_boxy_bringup)/launch/base/torso_giskard_wrapper.launch" >
     <remap from="omnidrive/giskard_command" to="whole_body_controller/velocity_cmd" />
   </include>
   <!-- Move torso from PS3 controller TODO:'fix communication' -->

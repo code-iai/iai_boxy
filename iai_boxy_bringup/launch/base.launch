@@ -33,13 +33,15 @@
   <include file="$(find iai_boxy_bringup)/launch/base/torso_giskard_wrapper.launch" >
     <remap from="omnidrive/giskard_command" to="whole_body_controller/velocity_cmd" />
   </include>
-  <!-- Move torso from PS3 controller TODO:'fix communication' -->
-  <!-- node name="joy_torso_remote" pkg="joy_torso_remote" type="joy_torso_remote.py"/-->
-  <!-- PS3 controller specific config -->
+
+  <!-- PS4 controller specific config -->
   <include file="$(find iai_boxy_bringup)/launch/base/ps3.launch"/>
   <!-- General teleoperation interface -->
   <include file="$(find turtlebot_teleop)/launch/ps3_teleop.launch"/>
-
+  <!-- Teleop torso with PS4 controller -->
+  <include file="$(find joy_torso_remote)/launch/teleop_torso_ps4.launch" >
+    <remap from="omnidrive/giskard_command" to="whole_body_controller/velocity_cmd" />
+  </include>
 
 
   <!-- LASER SCANNERS AND NAVIGATION -->

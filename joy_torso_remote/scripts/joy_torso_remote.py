@@ -31,8 +31,8 @@ class TorsoVelInterface(object):
     """
     def __init__(self):
         self.joy_torso_vel = 0.0
-        self.torso_vel_pub = rospy.Publisher('/omnidrive/giskard_command', JointState, tcp_nodelay=True, queue_size=10)
-        self.vel_listener = rospy.Subscriber('/joy', Joy, self.joy_callback, tcp_nodelay=True)
+        self.torso_vel_pub = rospy.Publisher('omnidrive/giskard_command', JointState, tcp_nodelay=True, queue_size=10)
+        self.vel_listener = rospy.Subscriber('joy', Joy, self.joy_callback, tcp_nodelay=True)
         
     def joy_callback(self, data):
         """

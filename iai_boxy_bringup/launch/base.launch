@@ -29,20 +29,18 @@
   <!-- BASE AND TORSO WITH TELEOP -->
   <!-- Move base interface -->
   <include file="$(find omni_ethercat)/launch/boxy.launch"/>
-  <!-- Move torso interface -->
-  <include file="$(find iai_boxy_bringup)/launch/base/torso_giskard_wrapper.launch" >
+  <group>
+    <!-- Remap for all following launches -->
     <remap from="omnidrive/giskard_command" to="whole_body_controller/velocity_cmd" />
-  </include>
-
-  <!-- PS4 controller specific config -->
-  <include file="$(find iai_boxy_bringup)/launch/base/ps3.launch"/>
-  <!-- General teleoperation interface -->
-  <include file="$(find turtlebot_teleop)/launch/ps3_teleop.launch"/>
-  <!-- Teleop torso with PS4 controller -->
-  <include file="$(find joy_torso_remote)/launch/teleop_torso_ps4.launch" >
-    <remap from="omnidrive/giskard_command" to="whole_body_controller/velocity_cmd" />
-  </include>
-
+    <!-- Move torso interface -->
+    <include file="$(find iai_boxy_bringup)/launch/base/torso_giskard_wrapper.launch" /> 
+    <!-- PS4 controller specific config -->
+    <include file="$(find iai_boxy_bringup)/launch/base/ps3.launch"/>
+    <!-- General teleoperation interface -->
+    <include file="$(find turtlebot_teleop)/launch/ps3_teleop.launch"/>
+    <!-- Teleop torso with PS4 controller -->
+    <include file="$(find joy_torso_remote)/launch/teleop_torso_ps4.launch" />
+  </group>
 
   <!-- LASER SCANNERS AND NAVIGATION -->
   <!-- Start LIDARs front and back TODO:'fix front laser' -->
@@ -55,7 +53,7 @@
   <include file="$(find nav_pcontroller)/launch/boxy_nav_pcontroller.launch"/>
 
 
-  <!-- Connect soft run stop on the PS3 controller -->
+  <!-- Connect soft run stop on the PS4 controller -->
   <node name="soft_runstop" pkg="soft_runstop" type="soft_runstop">
     <param name="stop_button" type="int" value="0"/>
     <param name="start_button" type="int" value="3"/>

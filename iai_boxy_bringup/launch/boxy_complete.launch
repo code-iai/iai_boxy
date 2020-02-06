@@ -60,15 +60,14 @@
 
   <!-- Gripper and ft_sensor -->
   <group if="$(eval arg('with_gripper') == true)">
-    <include file="$(find iai_boxy_bringup)/launch/ft_sensor.launch"/>
-    <include file="$(find iai_boxy_bringup)/launch/wsg50.launch">
-     <arg name="ros_control" value="$(arg ros_control)"/>
+    <include file="$(find iai_boxy_bringup)/launch/gripper.launch">
+      <arg name="ros_control" value="$(arg ros_control)"/>
     </include>
   </group>
 
   <!-- UR3 neck -->
   <group if="$(eval arg('with_neck') == true)">
-    <include file="$(find iai_boxy_bringup)/launch/ur3.launch">
+    <include file="$(find iai_boxy_bringup)/launch/head/ur3.launch">
       <arg name="standalone" value="false" />
       <arg name="controller_config_file"
            value="$(find iai_boxy_bringup)/config/ur3_controllers.yaml" />
@@ -77,14 +76,8 @@
 
   <!-- Kinect2 -->
   <group if="$(eval arg('with_kinect') == true)">
-    <!--include file="$(find iai_boxy_bringup)/launch/kinect2_head.launch"/-->
-
-    <!--include file="$(find iai_boxy_bringup)/launch/openni_shoulder_kinect.launch">
-      <arg name="publish_tf" value="false"/>
-    </include-->
+    <include file="$(find iai_boxy_bringup)/launch/head.launch"/>
   </group>
-
-
 
 </launch>
 

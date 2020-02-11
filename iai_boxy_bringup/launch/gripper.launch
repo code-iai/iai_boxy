@@ -3,8 +3,9 @@
   <arg name="ros_control" default="true"/>
 
   <include file="$(find iai_boxy_bringup)/launch/gripper/ft_sensor.launch"/>
-  <include file="$(find iai_boxy_bringup)/launch/gripper/wsg50.launch">
+  <!-- TODO: configure gripper launchfile -->
+  <!--include file="$(find iai_boxy_bringup)/launch/gripper/wsg50.launch">
     <arg name="ros_control" value="$(arg ros_control)"/>
-  </include>
+  </include-->
 
 </launch>

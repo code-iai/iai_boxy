@@ -24,14 +24,13 @@
   <node pkg="joint_state_publisher" type="joint_state_publisher"
         name="joint_state_publisher" output="screen">
     <rosparam param="source_list">
+      - omnidrive/joint_states 
       - right_arm/joint_states
       - left_arm/joint_states
       - torso/joint_states
       - head/joint_states
       - left_arm_gripper/joint_states
-      - right_arm_gripper/joint_states
       - neck/joint_states
-      - omnidrive/joint_states 
     </rosparam>
     <rosparam param="zeros">
       'left_arm_0_joint': 0.47553

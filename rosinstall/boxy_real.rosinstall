@@ -35,11 +35,3 @@
     local-name: nav_pcontroller
     uri: https://github.com/code-iai/nav_pcontroller
     version: master
-- git:
-    local-name: Universal_Robots_ROS_Driver 
-    uri: https://github.com/UniversalRobots/Universal_Robots_ROS_Driver.git
-    version: a926789adc0cefc616beb0fda15793cdcd65831b
-- git:
-    local-name: fmauch_universal_robot
-    uri: https://github.com/fmauch/universal_robot.git
-    version: e5a176c47d929f228778a95222aac2c1d727e7e5

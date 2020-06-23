@@ -1,42 +1,4 @@
-# Boxy Install guide
-
-## Repositories
-
-UR Driver .rosinstall
-
-```yaml
-- git:
-    local-name: Universal_Robots_ROS_Driver
-    uri: https://github.com/UniversalRobots/Universal_Robots_ROS_Driver.git
-    version: master
-- git:
-    local-name: fmauch_universal_robot
-    uri: https://github.com/fmauch/universal_robot.git
-    version: calibration_devel
-```
-
-
-
-
-
-## PRs to merge
-
-iai_boxy_bringup
-
-* merge clean-launches to master
-* kinect launch was never tested
-
-iai_maps: better map
-
-* but other is default
-
-iai_dlr_intergration: arm traj_server.py and launchfile
-
-* no gitolite access and not allowed to fork
-
-
-
-https://github.com/code-iai/iai_robots/pull/27
+# iai_boxy
 
 ## Installation Guide on Leela
 
@@ -44,9 +6,7 @@ Install the two components (Universal Robot, Boxy) in separate workspaces, first
 
 ### Universal Robot
 
-The head is a UR3 arm, last updated in February 2020. Find the full installation an manual at https://github.com/UniversalRobots/Universal_Robots_ROS_Driver.
-
-We pull a specific version of the two needed UR repos from the iai_boxy rosinstall files.
+The head is a UR3 arm, last updated in February 2020. We pull a specific version of the two needed UR repos from the iai_boxy rosinstall files.
 
 ```bash
 # source global ros
@@ -70,6 +30,8 @@ catkin_make
 # source workspace
 source ~/us_ws/devel/setup.bash
 ```
+
+Find the full installation an manual at https://github.com/UniversalRobots/Universal_Robots_ROS_Driver.
 
 ### Boxy
 
@@ -119,8 +81,6 @@ source ${HOME}/rosws/devel/setup.bash
 exec "$@"
 ```
 
-
-
 ## Bringup
 
 Check the power switches on Leelas back. 1, 2, 3, 7, 12 are usually active. See the full explanation of all switches [here](https://toychest.ai.uni-bremen.de/wiki/ias:boxy_setup). Activate **at least** the power switches 1, 2, 3, 4, 5, and 7  to move the base and torso. 6 is for the UR head, 9, 10, 11 for the arms and 12 for the arm controller. All the launchfiles are located in `iai_boxy/iai_boxy_bringup`. The general launcher is `boxy_complete.launch`.  Notice the parameters around the top of the file.
@@ -168,7 +128,7 @@ Common work flow to start up Boxy:
    * Hit the `square` button on the DS4 controller to release the **soft-run-stop**.
       * the warnings should now cease. 
 * Moving Boxy:
-   * There are two locks that prevent Boxy from moving, the hard E-Stop and the soft run-stop or kill switch of the DS4 controller. You can activate the kill-switch with `cross` and disable (free) it with `square`. Even the torso won't move when the soft stop is active
+   * There are two locks that prevent Boxy from moving, the hard E-Stop and the soft run-stop or kill switch of the DS4 controller. You can activate the kill-switch with `cross` and disable (free) it with `square`. Even the torso won't move when the soft stop is active.
 
 
 
@@ -202,5 +162,3 @@ cd ..                                           # go to workspace directory
 catkin build                                    # build packages
 echo ~/giskardpy_ws/devel/setup.bash >> ~/.bashrc  # source giskardpy_ws as overlaying on top
 ```
-
-### 

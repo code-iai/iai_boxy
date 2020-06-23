@@ -7,6 +7,11 @@
     local-name: iai_common_msgs
     uri: https://github.com/code-iai/iai_common_msgs.git
     version: master
+# IAI_DLR_INTEGRATION
+- git:
+    local-name: iai_maps
+    uri: https://github.com/code-iai/iai_maps.git
+    version: master
 - git:
     local-name: iai_robot_drivers
     uri: https://github.com/code-iai/iai_robot_drivers.git
@@ -16,8 +21,8 @@
     uri: https://github.com/code-iai/iai_robots.git
     version: master
 - git:
-    local-name: iai_maps
-    uri: https://github.com/code-iai/iai_maps.git
+    local-name: nav_pcontroller
+    uri: https://github.com/code-iai/nav_pcontroller
     version: master
 - git:
     local-name: omni_pose_follower
@@ -31,7 +36,4 @@
     local-name: reflexxes_type2
     uri: https://github.com/code-iai/reflexxes_type2.git
     version: master
-- git:
-    local-name: nav_pcontroller
-    uri: https://github.com/code-iai/nav_pcontroller
-    version: master
+

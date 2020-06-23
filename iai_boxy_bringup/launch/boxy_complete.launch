@@ -39,13 +39,21 @@
       'left_arm_4_joint': -2.96865
       'left_arm_5_joint': 0.394601
       'left_arm_6_joint': 0.478342
+<!--  Until right arm is fixed, use zeros.
       'right_arm_0_joint': -0.53244
       'right_arm_1_joint': -1.9504
       'right_arm_2_joint': -0.00022
       'right_arm_3_joint': 1.85505
       'right_arm_4_joint': -0.7828
       'right_arm_5_joint': -0.1524
-      'right_arm_6_joint': -1.8721
+      'right_arm_6_joint': -1.8721-->
+      'right_arm_0_joint': 0.0
+      'right_arm_1_joint': 0.0
+      'right_arm_2_joint': 0.0
+      'right_arm_3_joint': 0.0
+      'right_arm_4_joint': 0.0
+      'right_arm_5_joint': 0.0
+      'right_arm_6_joint': 0.0
     </rosparam>
     <param name="rate" value="200"/>
     <param name="use_gui" value="False"/>

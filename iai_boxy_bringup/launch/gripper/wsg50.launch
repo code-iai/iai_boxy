@@ -1,5 +1,5 @@
 <launch>
-  <arg name="ros_control" default="false"/>
+  <arg name="ros_control" default="true"/>
 
   <!-- If we are using ros_control, send the joint states to /joint_states -->
 
@@ -16,8 +16,9 @@
       <arg name="ip" value="192.168.102.64"/>
       <!--arg name="l_finger_joint_name" value="left_gripper_base_gripper_left_joint"/>
       <arg name="r_finger_joint_name" value="left_gripper_base_gripper_right_joint"/-->
-      <arg name="js_topic" value="/joint_states"/>
-    </include>
+      <arg name="js_topic" value="left_arm_gripper/joint_states"/>
+      <arg name="gripper_name" value="left"/>
+   </include>
 
   </group>
 

@@ -1,5 +1,5 @@
 <launch>
-  <node pkg="nav_pcontroller" type="nav_pcontroller" name="nav_pcontroller" output="screen">
+  <node pkg="nav_pcontroller" type="nav_pcontroller" name="nav_pcontroller" output="log">
     <remap from="/cmd_vel" to="/base/cmd_vel_twist"/>
     <remap from="~laser_1" to="/hokuyo_utm30_front/most_intense"/>
     <remap from="~laser_2" to="/hokuyo_utm30_back/most_intense"/>

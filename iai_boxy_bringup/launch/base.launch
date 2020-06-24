@@ -23,7 +23,7 @@
 
 
   <!-- Map and static /map frame -->
-  <include file="$(find iai_maps)/launch/map.launch"/>
+  <include file="$(find iai_maps)/launch/map_boxy.launch"/>
 
 
   <!-- BASE AND TORSO WITH TELEOP -->

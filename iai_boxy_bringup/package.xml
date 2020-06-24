@@ -18,7 +18,7 @@
   <run_depend>wsg_50_driver</run_depend>
   <run_depend>omni_pose_follower</run_depend>
   <run_depend>ur_robot_driver</run_depend>
-  <run_depend>ur_description</run_depend>
+  <!--run_depend>ur_description</run_depend-->
   <run_depend>iai_ur_description</run_depend>
   <run_depend>nav_pcontroller</run_depend>
 

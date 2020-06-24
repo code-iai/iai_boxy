@@ -79,6 +79,7 @@
       <arg name="standalone" value="false" />
       <arg name="controller_config_file"
            value="$(find iai_boxy_bringup)/config/ur3_controllers.yaml" />
+      <arg name="robot_description_file" value="$(find iai_ur_description)/launch/ur3_upload.launch"/>
     </include>
   </group>
 

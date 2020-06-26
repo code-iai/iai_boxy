@@ -38,5 +38,5 @@
     version: master
 - git:
     local-name: Universal_Robots_ROS_Driver
-    uri: https://github.com/UniversalRobots/Universal_Robots_ROS_Driver.git
-    version: a926789adc0cefc616beb0fda15793cdcd65831b
+    uri: https://github.com/artnie/Universal_Robots_ROS_Driver.git
+    version: f09791764f13b7a08931a63e9bca61c16d3a22ae

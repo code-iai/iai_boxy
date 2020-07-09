@@ -19,35 +19,36 @@
 import roslib; roslib.load_manifest('joy_torso_remote')
 import rospy
 
-from sensor_msgs.msg import Joy
-from std_msgs.msg import Float64
+from sensor_msgs.msg import Joy, JointState
 
 vel_scale = 0.08
 
-class TorsoVelInterface( object ):
-    '''This class integrates velocities from the joysticks and sends a desired pos to the torso
-    '''
-    def __init__(self):
-        
-        self.joy_torso_vel = 0.0
-        self.torso_vel_pub = rospy.Publisher('/torso/cmd_vel', Float64, tcp_nodelay=True, queue_size=10)
-        self.vel_listener = rospy.Subscriber('/joy', Joy, self.joy_callback, tcp_nodelay=True)
 
-        
+class TorsoVelInterface(object):
+    """
+    This class integrates velocities from the joysticks and sends a desired velocity to the torso.
+    Release soft_runstop, hold L1, press arrows up/down
+    """
+    def __init__(self):
+        self.joy_torso_vel = 0.0
+        self.torso_vel_pub = rospy.Publisher('omnidrive/giskard_command', JointState, tcp_nodelay=True, queue_size=10)
+        self.vel_listener = rospy.Subscriber('joy', Joy, self.joy_callback, tcp_nodelay=True)
         
     def joy_callback(self, data):
-        '''Update the delta_pan and delta_tilt according to the given velocities
-        '''
-        
-        #Only do stuff if the dead-man switch, and pan/tilt buttons are pressed
-        #The torso has a watchdog that makes it stop
-        if (data.buttons[8] == 1) and (data.buttons[10] == 1) :
+        """
+        Publish the torso's desired movement to the omnidrive.
+        :type data: Joy
+        """
+        # Only do stuff if the dead-man switch L1 is pressed
+        # The torso has a watchdog that makes it stop
+        if data.buttons[4] == 1:
             self.time_last_vel_cmd = rospy.Time.now().to_sec()            
-            self.torso_vel = data.axes[1] * vel_scale
-            cmd = Float64(self.torso_vel)
-            self.torso_vel_pub.publish(cmd)            
+            self.torso_vel = data.axes[7] * vel_scale
 
-
+            cmd = JointState()
+            cmd.name = ['triangle_base_joint']
+            cmd.velocity = [self.torso_vel]
+            self.torso_vel_pub.publish(cmd)
 
 
 def main():
@@ -55,7 +56,7 @@ def main():
     
     whr = TorsoVelInterface()
     rospy.spin()
-        
+
         
 if __name__ == '__main__':
     main()

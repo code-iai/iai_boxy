@@ -1,0 +1,11 @@
+<launch>
+  <machine name="leela" address="leela" env-loader="$(env ROS_ENV_LOADER)" default="true" />
+  <machine name="leela-root" address="leela" env-loader="$(env ROS_ENV_LOADER)" default="false" user="root" />
+
+  <machine name="amy" address="amy" env-loader="$(env ROS_ENV_LOADER)" />
+  <machine name="localhost" address="localhost" />
+
+  <machine name="ur3" address="192.168.102.62" />
+</launch>
+
+

@@ -1,0 +1,12 @@
+<launch>
+  <node pkg="iai_kms_40_driver" type="kms40_driver.py" name="left_arm_ft_sensor" output="screen">
+    <param name="ip" value="192.168.102.65" type="string"/>
+    <param name="port" value="1000" type="int"/>
+    <param name="tcp_timeout" value="0.5" type="double"/>
+    <param name="publish_rate" value="125" type="int"/>
+    <param name="frame_id" value="left_arm_kms40_frame_out" type="string"/>
+    <param name="topic_name" value="/left_arm_kms40/wrench" type="string"/>
+    <param name="service_name" value="/left_arm_kms40/set_tare" type="string"/>
+    <param name="use_sim_time" value="false" type="string"/>
+  </node>
+</launch>

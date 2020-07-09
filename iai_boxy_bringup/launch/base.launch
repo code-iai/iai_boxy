@@ -1,0 +1,69 @@
+<launch>
+  <arg name="standalone" default="true"/>
+
+  <!-- Base URDF and joint merge. Torso is not included in this URDF! -->
+  <group if="$(eval arg('standalone') == true)">
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher">
+      <param name="use_tf_static" value="false"/>
+    </node>
+    <node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher" output="screen">
+      <rosparam param="source_list">
+        - base/joint_states
+      </rosparam>
+      <rosparam param="zeros">
+        'odom_x_joint': 0.0
+        'odom_y_joint': 0.0
+        'odom_z_joint': 0.0
+      </rosparam>
+      <param name="rate" value="120"/>
+      <param name="use_gui" value="False"/>
+    </node>
+    <include file="$(find iai_boxy_base)/launch/upload.launch"/>
+  </group>
+
+
+  <!-- Map and static /map frame -->
+  <include file="$(find iai_maps)/launch/map_boxy.launch"/>
+
+
+  <!-- BASE AND TORSO WITH TELEOP -->
+  <!-- Move base interface -->
+  <include file="$(find omni_ethercat)/launch/boxy.launch"/>
+  <group>
+    <!-- Remap for all following launches -->
+    <remap from="omnidrive/giskard_command" to="whole_body_controller/velocity_cmd" />
+    <!-- Move torso interface -->
+    <include file="$(find iai_boxy_bringup)/launch/base/torso_giskard_wrapper.launch" /> 
+    <!-- PS4 controller specific config -->
+    <include file="$(find iai_boxy_bringup)/launch/base/ps3.launch"/>
+    <!-- General teleoperation interface -->
+    <include file="$(find turtlebot_teleop)/launch/ps3_teleop.launch"/>
+    <!-- Teleop torso with PS4 controller -->
+    <include file="$(find joy_torso_remote)/launch/teleop_torso_ps4.launch" />
+  </group>
+
+  <!-- LASER SCANNERS AND NAVIGATION -->
+  <!-- Start LIDARs front and back TODO:'fix front laser' -->
+  <include file="$(find iai_boxy_bringup)/launch/base/hokuyo_utm30_boxy.launch">
+    <arg name="with_front" value="false"/>
+  </include>
+  <!-- Localization -->
+  <include file="$(find iai_boxy_bringup)/launch/base/amcl_omni.launch"/>
+  <!-- Navigation controller -->
+  <include file="$(find nav_pcontroller)/launch/boxy_nav_pcontroller.launch"/>
+
+
+  <!-- Connect soft run stop on the PS4 controller -->
+  <node name="soft_runstop" pkg="soft_runstop" type="soft_runstop">
+    <param name="stop_button" type="int" value="0"/>
+    <param name="start_button" type="int" value="3"/>
+  </node>
+
+
+  <!-- Action server wrapping base cmd_vel into follow_joint_trajectory. Needs rest of boxy. -->
+  <group unless="$(eval arg('standalone') == true)">
+    <include file="$(find iai_boxy_bringup)/launch/base/omni_pose_follower.launch"/>
+  </group>
+
+</launch>
+

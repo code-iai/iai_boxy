@@ -1,0 +1,21 @@
+<launch>
+  <include file="$(find iai_boxy_bringup)/machines/boxy.machine" />
+
+  <!-- we used to use ps3joy_node from ps3joy, but it broke for recent
+       kernels. Now we use QtSixA, that starts a daemon,
+       and offers /dev/input/js0, so now we only need the joy_node -->
+
+  <node pkg="joy" type="joy_node" name="ps3_joy" output="screen" >
+    <param name="dev" type="string" value="/dev/input/js0" />
+    <param name="deadzone" value="0.12" />
+    <param name="autorepeat_rate" value="20" />
+    <param name="coalesce_interval" value="0.01" />
+  </node>
+
+  <node pkg="diagnostic_aggregator" type="aggregator_node" name="diagnostic_aggregator" >
+    <!-- Load the file you made above -->
+    <rosparam command="load" file="$(find ps3joy)/diagnostics.yaml" />
+  </node>
+
+
+</launch>

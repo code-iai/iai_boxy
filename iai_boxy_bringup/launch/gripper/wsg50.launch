@@ -1,0 +1,56 @@
+<launch>
+  <arg name="ros_control" default="true"/>
+
+  <!-- If we are using ros_control, send the joint states to /joint_states -->
+
+  <group if="$(arg ros_control)">
+
+    <!--include file="$(find wsg_50_driver)/launch/wsg_50_tcp.launch">
+      <arg name="node_name" value="right_arm_gripper"/>
+      <arg name="ip" value="192.168.102.63"/>
+      <arg name="js_topic" value="/joint_states"/>
+    </include-->
+
+    <include file="$(find wsg_50_driver)/launch/wsg_50_tcp.launch">
+      <arg name="node_name" value="left_arm_gripper"/>
+      <arg name="ip" value="192.168.102.64"/>
+      <!--arg name="l_finger_joint_name" value="left_gripper_base_gripper_left_joint"/>
+      <arg name="r_finger_joint_name" value="left_gripper_base_gripper_right_joint"/-->
+      <arg name="js_topic" value="left_arm_gripper/joint_states"/>
+      <arg name="gripper_name" value="left"/>
+   </include>
+
+  </group>
+
+
+  <!-- If not, keep them on the local ns -->
+  <group unless="$(arg ros_control)">
+
+    <!--include file="$(find wsg_50_driver)/launch/wsg_50_tcp.launch">
+      <arg name="node_name" value="right_arm_gripper"/>
+      <arg name="ip" value="192.168.102.63"/>
+      <arg name="gripper_name" value="right"/>
+    </include-->
+
+    <include file="$(find wsg_50_driver)/launch/wsg_50_tcp.launch">
+      <arg name="node_name" value="left_arm_gripper"/>
+      <arg name="ip" value="192.168.102.64"/>
+      <!--arg name="l_finger_joint_name" value="left_gripper_base_gripper_left_joint"/>
+      <arg name="r_finger_joint_name" value="left_gripper_base_gripper_right_joint"/-->
+      <arg name="gripper_name" value="left"/>
+    </include>
+
+  </group>
+
+
+
+  <!-- Translate /joy to commands to the grippers -->
+  <!--node name="joy_gripper_remote" pkg="joy_gripper_remote" 
+        type="joy_gripper_remote.py" output="screen">
+    <remap from="~joy" to="/joy"/>
+    <remap from="~left_command" to="/left_arm_gripper/goal_position"/>
+    <remap from="~right_command" to="/right_arm_gripper/goal_position"/>
+    <param name="~force" value="35.0"/>
+  </node-->
+
+</launch>

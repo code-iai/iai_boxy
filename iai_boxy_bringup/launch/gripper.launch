@@ -1,0 +1,18 @@
+<launch>
+  <arg name="ros_control" default="true"/>
+
+  <include file="$(find iai_boxy_bringup)/launch/gripper/ft_sensor.launch"/>
+  <!-- TODO: configure gripper launchfile -->
+  <include file="$(find iai_boxy_bringup)/launch/gripper/wsg50.launch">
+    <arg name="ros_control" value="$(arg ros_control)"/>
+  </include>
+
+  <!-- Control the grippers via teleop -->
+  <node pkg="joy_gripper_remote" type="joy_gripper_remote.py" name="joy_gripper_teleop" output="screen">
+    <param name="open_pos" value="110.0"/>
+    <param name="close_pos" value="6.5"/>
+    <param name="velocity" value="40.0"/>
+    <param name="force" value="20.0"/>
+  </node>
+
+</launch>

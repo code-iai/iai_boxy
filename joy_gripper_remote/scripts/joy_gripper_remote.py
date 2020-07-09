@@ -25,31 +25,48 @@ from sensor_msgs.msg import Joy
 class JoyGripperRemote( object ):
     '''    '''
     def __init__(self):
-        self.left_cmd = rospy.Publisher('~left_command', PositionCmd, queue_size=5, tcp_nodelay=True)
-        self.right_cmd = rospy.Publisher('~right_command', PositionCmd, queue_size=5, tcp_nodelay=True)
-        self.joy_listener = rospy.Subscriber('~joy', Joy, self.joy_callback, tcp_nodelay=True)
+        self.left_cmd = rospy.Publisher('/left_arm_gripper/goal_position', PositionCmd, queue_size=5, tcp_nodelay=True)
+        self.right_cmd = rospy.Publisher('/right_arm_gripper/goal_position', PositionCmd, queue_size=5, tcp_nodelay=True)
+        self.joy_listener = rospy.Subscriber('/joy', Joy, self.joy_callback, tcp_nodelay=True)
         self.open_pos = rospy.get_param('~open_pos', 110.0)
-        self.close_pos = rospy.get_param('~close_pos', 5.0)
+        self.close_pos = rospy.get_param('~close_pos', 6.0)
         self.velocity = rospy.get_param('~velocity', 60.0)
         self.force = rospy.get_param('~force', 30.0)
         
     def joy_callback(self, answer):
-        '''        '''
+        '''
+        Callback for controller data from joy, opening/closing the grippers.
+        Hold:
+            L1: release deadman-switch
+            L2: address left gripper
+            R2: address right gripper
+        Press:
+            Triangle: open gripper
+            Circle: close gripper
+        '''
 
-        #Only do stuff if the dead-man switch, and pan/tilt buttons are pressed
-        if (answer.buttons[10] == 1) :
+        #Only do stuff if the dead-man switch (L1) and left-trigger (L2) or right-trigger (R2) is pressed
+        if (answer.buttons[4] == 1) :
+            # L2
+            if (answer.buttons[6] == 1) :
+                # Triangle
+                if (answer.buttons[2] == 1) :
+                    rospy.loginfo("Closing left gripper")
+                    self.close(self.left_cmd)
+                # Circle
+                elif (answer.buttons[1] == 1) :
+                    rospy.loginfo("Opening left gripper") 
+                    self.open(self.left_cmd)
+            # R2
             if (answer.buttons[7] == 1) :
-                rospy.loginfo("Closing left gripper")
-                self.close(self.left_cmd)
-            elif (answer.buttons[5] == 1) :
-                rospy.loginfo("Opening left gripper") 
-                self.open(self.left_cmd)
-            elif (answer.buttons[13] == 1) :
-                rospy.loginfo("Closing right gripper") 
-                self.close(self.right_cmd)
-            elif (answer.buttons[15] == 1) :
-                rospy.loginfo("Opening right gripper") 
-                self.open(self.right_cmd)
+                # Triangle
+                if (answer.buttons[2] == 1) :
+                    rospy.loginfo("Closing right gripper") 
+                    self.close(self.right_cmd)
+                # Circle
+                elif (answer.buttons[1] == 1) :
+                    rospy.loginfo("Opening right gripper") 
+                    self.open(self.right_cmd)
 
     def close(self, pub):
         self.command_pos(self.close_pos, pub)

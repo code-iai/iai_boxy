@@ -1,0 +1,93 @@
+<launch>
+  <arg name="ros_control" default="true"/>
+  <param name="/use_sim_time" value="false"/>
+
+  <arg name="with_base" default="true"/>
+  <arg name="with_neck" default="false"/>
+  <arg name="with_gripper" default="false"/>
+  <arg name="with_kinect" default="false"/>
+
+
+  <include file="$(find iai_boxy_bringup)/machines/boxy.machine" />
+
+  <!-- Load the robot description -->
+  <include file="$(find iai_boxy_description)/launch/upload_boxy.launch" />
+
+  <!-- Do forward kinematics: /joint_states + robot model => /tf -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+
+  <!-- TF2 BUFFER SERVER -->
+  <node pkg="tf2_ros" type="buffer_server" name="buffer_server"/>
+
+ <!-- Bring together the different joint state messages -->
+  <node pkg="joint_state_publisher" type="joint_state_publisher"
+        name="joint_state_publisher" output="screen">
+    <rosparam param="source_list">
+      - right_arm/joint_states
+      - left_arm/joint_states
+      - torso/joint_states
+      - left_arm_gripper/joint_states
+      - right_arm_gripper/joint_states
+      - neck/joint_states
+      - omnidrive/joint_states 
+    </rosparam>
+    <rosparam param="zeros">
+      'left_arm_0_joint': 0.47553
+      'left_arm_1_joint': 2.09769
+      'left_arm_2_joint': 2.97525
+      'left_arm_3_joint': 1.5025
+      'left_arm_4_joint': -2.96865
+      'left_arm_5_joint': 0.394601
+      'left_arm_6_joint': 0.478342
+<!--  Until right arm is fixed, use zeros.
+      'right_arm_0_joint': -0.53244
+      'right_arm_1_joint': -1.9504
+      'right_arm_2_joint': -0.00022
+      'right_arm_3_joint': 1.85505
+      'right_arm_4_joint': -0.7828
+      'right_arm_5_joint': -0.1524
+      'right_arm_6_joint': -1.8721-->
+      'right_arm_0_joint': 0.0
+      'right_arm_1_joint': 0.0
+      'right_arm_2_joint': 0.0
+      'right_arm_3_joint': 0.0
+      'right_arm_4_joint': 0.0
+      'right_arm_5_joint': 0.0
+      'right_arm_6_joint': 0.0
+    </rosparam>
+    <param name="rate" value="200"/>
+    <param name="use_gui" value="False"/>
+  </node>
+
+  <!-- Base and navigation -->
+  <group if="$(eval arg('with_base') == true)">
+    <include file="$(find iai_boxy_bringup)/launch/base.launch" >
+      <arg name="standalone" value="false" />
+    </include>
+  </group>
+
+  <!-- Gripper and ft_sensor -->
+  <group if="$(eval arg('with_gripper') == true)">
+    <include file="$(find iai_boxy_bringup)/launch/gripper.launch">
+      <arg name="ros_control" value="$(arg ros_control)"/>
+    </include>
+  </group>
+
+  <!-- UR3 neck -->
+  <group if="$(eval arg('with_neck') == true)">
+    <include file="$(find iai_boxy_bringup)/launch/head/ur3.launch">
+      <arg name="standalone" value="false" />
+      <arg name="controller_config_file"
+           value="$(find iai_boxy_bringup)/config/ur3_controllers.yaml" />
+      <arg name="robot_description_file" value="$(find iai_ur_description)/launch/ur3_upload.launch"/>
+    </include>
+  </group>
+
+  <!-- Kinect2 -->
+  <group if="$(eval arg('with_kinect') == true)">
+    <include file="$(find iai_boxy_bringup)/launch/head.launch"/>
+  </group>
+
+</launch>
+
+

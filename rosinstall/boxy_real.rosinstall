@@ -2,7 +2,7 @@
 - git:
     local-name: iai_boxy
     uri: https://github.com/code-iai/iai_boxy.git
-    version: clean-launches
+    version: master
 - git:
     local-name: iai_common_msgs
     uri: https://github.com/code-iai/iai_common_msgs.git
